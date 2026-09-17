@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brand System — YOWO</title>
+<meta name="description" content="The YOWO brand identity system and motion guideline. A living document." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+/* ============ guideline-only styles ============ */
+
+.g-chapter { padding: 12vh 0 4vh; }
+.g-chapter .num { color: var(--ink-faint); display: block; margin-bottom: 1.6em; }
+.g-chapter h2 {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  font-size: clamp(2rem, 5vw, 4.6rem);
+}
+
+.g-note { max-width: 52ch; color: var(--ink-soft); margin-top: 2.4em; font-size: 15px; line-height: 1.7; }
+
+/* spec tables */
+.g-spec { border-top: var(--hairline); margin-top: 6vh; }
+.g-spec .g-row {
+  display: grid;
+  grid-template-columns: minmax(12ch, 22ch) 1fr minmax(14ch, 24ch);
+  gap: clamp(16px, 3vw, 48px);
+  padding: 26px 0;
+  border-bottom: var(--hairline);
+  align-items: center;
+}
+.g-spec .g-row .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+.g-spec .g-row .val { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-faint); text-align: right; }
+@media (max-width: 720px) {
+  .g-spec .g-row { grid-template-columns: 1fr; gap: 10px; }
+  .g-spec .g-row .val { text-align: left; }
+}
+
+/* wordmark specimens */
+.g-mark-primary { font-family: var(--mono); font-weight: 700; letter-spacing: 0.34em; font-size: clamp(2rem, 6vw, 5rem); }
+.g-mark-display { font-weight: 500; letter-spacing: 0.06em; font-size: clamp(3rem, 10vw, 9rem); line-height: 0.9; }
+
+.g-clearspace {
+  display: inline-block;
+  border: 1px dashed var(--ink-faint);
+  padding: clamp(24px, 4vw, 56px);
+  margin-top: 4vh;
+  position: relative;
+}
+.g-clearspace .cs-label {
+  position: absolute; top: 8px; left: 10px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; color: var(--ink-faint);
+}
+
+/* misuse */
+.g-misuse { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--ink); border: var(--hairline); margin-top: 4vh; }
+.g-misuse .m {
+  background: var(--paper);
+  padding: 40px 20px 30px;
+  text-align: center;
+  position: relative;
+}
+.g-misuse .m .x { position: absolute; top: 10px; right: 12px; font-family: var(--mono); font-size: 12px; }
+.g-misuse .m .demo { font-family: var(--mono); font-weight: 700; letter-spacing: 0.34em; font-size: 20px; display: block; margin-bottom: 18px; }
+.g-misuse .m .why { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); }
+.g-misuse .m.m-shadow .demo { text-shadow: 3px 3px 0 rgba(17,17,17,0.25); }
+.g-misuse .m.m-grad .demo { background: linear-gradient(90deg, #c06, #06c); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.g-misuse .m.m-tilt .demo { transform: rotate(-8deg); }
+.g-misuse .m.m-outline .demo { color: var(--paper); -webkit-text-stroke: 1px var(--ink); }
+.g-misuse .m.m-squish .demo { transform: scaleX(0.6); letter-spacing: 0.1em; }
+.g-misuse .m.m-loose .demo { letter-spacing: 0; }
+
+/* type specimens */
+.g-type-xl { font-weight: 500; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.98; font-size: clamp(2.6rem, 8.5vw, 8.2rem); }
+.g-type-md { font-weight: 500; text-transform: uppercase; letter-spacing: -0.015em; line-height: 1.02; font-size: clamp(1.8rem, 4.6vw, 4.2rem); }
+.g-type-title { font-weight: 500; text-transform: uppercase; line-height: 1.02; font-size: clamp(1.5rem, 3.6vw, 3.2rem); letter-spacing: -0.01em; }
+.g-type-prose { font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.7; max-width: 58ch; }
+.g-type-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+/* color chips */
+.g-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: clamp(20px, 3vw, 40px); margin-top: 6vh; }
+.g-chip .swatch { aspect-ratio: 16 / 10; border: var(--hairline); }
+.g-chip .cname { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 12px; }
+.g-chip .cval { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-faint); margin-top: 4px; }
+
+.sw-paper { background: #fcfcfa; }
+.sw-ink { background: #111111; }
+.sw-soft { background: #555555; }
+.sw-faint { background: #999999; }
+.sw-flora {
+  background: hsl(210, 42%, 58%);
+  animation: g-huedrift 45s linear infinite;
+}
+@keyframes g-huedrift { to { filter: hue-rotate(360deg); } }
+
+/* motion demos */
+.g-ease-demo { border-top: var(--hairline); margin-top: 6vh; }
+.g-ease-row {
+  display: grid;
+  grid-template-columns: minmax(12ch, 22ch) 1fr minmax(14ch, 26ch);
+  gap: clamp(16px, 3vw, 48px);
+  padding: 30px 0;
+  border-bottom: var(--hairline);
+  align-items: center;
+}
+.g-ease-row .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+.g-ease-row .val { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-faint); text-align: right; }
+.g-track { position: relative; height: 1px; background: rgba(17,17,17,0.15); }
+.g-dot {
+  position: absolute; top: 50%; left: 0;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--ink);
+  transform: translate(0, -50%);
+}
+.g-dot.d-micro { animation: g-run 2.4s cubic-bezier(0.6, 0, 0.2, 1) infinite; }
+.g-dot.d-enter { animation: g-run 2.4s cubic-bezier(0.2, 0.6, 0.2, 1) infinite; }
+.g-dot.d-ambient { animation: g-runback 6s ease-in-out infinite; }
+@keyframes g-run {
+  0%, 12% { left: 0; }
+  62%, 100% { left: calc(100% - 9px); }
+}
+@keyframes g-runback {
+  0%, 100% { left: 0; }
+  50% { left: calc(100% - 9px); }
+}
+@media (max-width: 720px) {
+  .g-ease-row { grid-template-columns: 1fr; gap: 14px; }
+  .g-ease-row .val { text-align: left; }
+}
+
+/* ambient demo garden */
+.g-garden {
+  border: var(--hairline);
+  margin-top: 6vh;
+  padding: clamp(24px, 4vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+}
+.g-garden .cell { min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.g-garden .cell .demoarea { flex: 1; display: flex; align-items: center; justify-content: center; }
+.g-garden .cell .dl { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+
+.g-breathe-node { width: 12px; height: 12px; border-radius: 50%; border: 1.2px solid var(--ink); animation: breathe 6s ease-in-out infinite; }
+.g-flow-line { width: 100%; height: 40px; }
+.g-flow-line line { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 5; animation: flow 50s linear infinite; }
+.g-drift-word { font-weight: 500; text-transform: uppercase; font-size: 1.5rem; animation: drift 11s ease-in-out infinite; }
+.g-sap-arrow { font-family: var(--mono); font-size: 16px; animation: sap 3.4s ease-in-out infinite; }
+.g-grow-rule { width: 100%; }
+.g-grow-rule hr { border: none; border-top: var(--hairline); transform-origin: left; animation: g-regrow 4s cubic-bezier(0.2, 0.6, 0.2, 1) infinite; }
+@keyframes g-regrow {
+  0% { transform: scaleX(0); }
+  40%, 85% { transform: scaleX(1); }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* voice table */
+.g-voice { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--ink); border: var(--hairline); margin-top: 6vh; }
+.g-voice > div { background: var(--paper); padding: clamp(24px, 3vw, 44px); }
+.g-voice .h { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 2em; display: block; }
+.g-voice p { font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.6; }
+.g-voice p + p { margin-top: 1.1em; }
+.g-voice .no p { color: var(--ink-faint); text-decoration: line-through; text-decoration-thickness: 1px; }
+@media (max-width: 720px) { .g-voice { grid-template-columns: 1fr; } }
+
+/* dont list */
+.g-donts { margin-top: 4vh; border-top: var(--hairline); }
+.g-donts li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: var(--hairline);
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.g-donts li::before { content: "✕"; font-family: var(--mono); color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="index.html">YOWO</a>
+  <nav>
+    <a href="ecosystem.html">Ecosystem</a>
+    <a href="lab.html">Lab</a>
+    <a href="journal.html">Journal</a>
+    <a href="studio.html">Studio</a>
+    <a href="network.html">Network</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="pagehead">
+    <span class="mono kicker">Brand System — Identity &amp; Motion. A living document, v1.0 — 2026</span>
+    <h1 class="display reveal in">Make the interface disappear. Let the ideas become the interface.</h1>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="prose">
+      <p class="reveal">This is not a rulebook. It is a description of how YOWO behaves —
+      on a page, on a screen, in motion. Everything follows one belief:
+      the brand never explains itself. The work speaks, the canvas stays white,
+      and the ecosystem is quietly alive.</p>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ====================== 01 FOUNDATION ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">01</span>
+    <h2>Foundation</h2>
+
+    <div class="g-spec reveal">
+      <div class="g-row">
+        <span class="lbl">Positioning</span>
+        <span class="g-type-md">We build the creative ecosystem for what comes next.</span>
+        <span class="val">Primary</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Alternate</span>
+        <span class="g-type-title serifish" style="text-transform:none;">A creative ecosystem for the age of AI.</span>
+        <span class="val">Contextual / formal</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Never</span>
+        <span style="color:var(--ink-faint);text-decoration:line-through;">AI Content Company · Workflow Automation · AI Agent Platform</span>
+        <span class="val">Too narrow, too SaaS</span>
+      </div>
+    </div>
+
+    <p class="g-note reveal">Five principles govern every design decision:</p>
+
+    <div class="rows reveal" style="margin-top:2vh;">
+      <div class="row"><span class="idx">P1</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">The work speaks. The brand stays quiet.</span><span class="meta"></span></div>
+      <div class="row"><span class="idx">P2</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">White canvas. Black typography. Nothing else by default.</span><span class="meta"></span></div>
+      <div class="row"><span class="idx">P3</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">Minimal is not plain — play lives in interaction.</span><span class="meta"></span></div>
+      <div class="row"><span class="idx">P4</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">The ecosystem is alive, but it whispers.</span><span class="meta"></span></div>
+      <div class="row"><span class="idx">P5</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">Editorial, not corporate. Studio, not startup.</span><span class="meta"></span></div>
+    </div>
+  </section>
+
+  <!-- ====================== 02 WORDMARK ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">02</span>
+    <h2>Wordmark</h2>
+
+    <p class="g-note reveal">The wordmark is typographic only. Two registered forms exist —
+    the tracked mono mark for navigation and small contexts, and the display mark
+    for endings and large statements. There is no symbol; the flora cursor is the
+    only living emblem, and it never freezes into a logo.</p>
+
+    <div class="g-spec reveal">
+      <div class="g-row">
+        <span class="lbl">Primary mark</span>
+        <span class="g-mark-primary">YOWO</span>
+        <span class="val">Mono 700 / tracking 0.34em</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Display mark</span>
+        <span class="g-mark-display">YOWO</span>
+        <span class="val">Grotesk 500 / tracking 0.06em</span>
+      </div>
+    </div>
+
+    <div class="g-clearspace reveal">
+      <span class="cs-label">Clearspace = height of one “O”</span>
+      <span class="g-mark-primary" style="font-size:clamp(1.4rem,3vw,2.4rem);">YOWO</span>
+    </div>
+
+    <p class="g-note reveal">Minimum size: 12px cap height on screen, 4mm in print.
+    The mark is always ink on paper or paper on ink. Never anything else:</p>
+
+    <div class="g-misuse reveal">
+      <div class="m m-shadow"><span class="x">✕</span><span class="demo">YOWO</span><span class="why">No shadows</span></div>
+      <div class="m m-grad"><span class="x">✕</span><span class="demo">YOWO</span><span class="why">No gradients</span></div>
+      <div class="m m-tilt"><span class="x">✕</span><span class="demo">YOWO</span><span class="why">No rotation</span></div>
+      <div class="m m-outline"><span class="x">✕</span><span class="demo">YOWO</span><span class="why">No outlines</span></div>
+      <div class="m m-squish"><span class="x">✕</span><span class="demo">YOWO</span><span class="why">No distortion</span></div>
+      <div class="m m-loose"><span class="x">✕</span><span class="demo">YOWO</span><span class="why">No custom tracking</span></div>
+    </div>
+  </section>
+
+  <!-- ====================== 03 TYPOGRAPHY ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">03</span>
+    <h2>Typography</h2>
+
+    <p class="g-note reveal">Two voices only. The grotesk speaks; the mono annotates.
+    The grotesk is loud in size but quiet in weight — never bolder than 500.
+    The mono never exceeds 12px and always tracks wide, like marginalia
+    or specimen labels in an archive.</p>
+
+    <div class="g-spec reveal">
+      <div class="g-row">
+        <span class="lbl">Display XL</span>
+        <span class="g-type-xl">Aa</span>
+        <span class="val">Grotesk 500 / clamp(2.6–8.2rem) / 0.98</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Display MD</span>
+        <span class="g-type-md">Machines for imagination</span>
+        <span class="val">Grotesk 500 / clamp(1.8–4.2rem) / 1.02</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Title</span>
+        <span class="g-type-title">The death of the prompt</span>
+        <span class="val">Grotesk 500 / clamp(1.5–3.2rem) / 1.02</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Prose</span>
+        <span class="g-type-prose">AI is not replacing creativity. It is changing who gets to create, how we create, and what becomes possible.</span>
+        <span class="val">Grotesk 400 / 1.05–1.25rem / 1.7</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Label</span>
+        <span class="g-type-label">The Journal — Research / Essays / Field Notes</span>
+        <span class="val">Mono / 11px / tracking 0.18em / uppercase</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 04 COLOR ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">04</span>
+    <h2>Colour</h2>
+
+    <p class="g-note reveal">The static world is monochrome — paper and ink, with two greys
+    for annotation. Colour exists only in motion: the flora cursor and its petals drift
+    through a muted spectrum and are gone. If something coloured stands still,
+    it is wrong.</p>
+
+    <div class="g-colors reveal">
+      <div class="g-chip">
+        <div class="swatch sw-paper"></div>
+        <div class="cname">Paper</div>
+        <div class="cval">#FCFCFA — every background</div>
+      </div>
+      <div class="g-chip">
+        <div class="swatch sw-ink"></div>
+        <div class="cname">Ink</div>
+        <div class="cval">#111111 — type, rules, marks</div>
+      </div>
+      <div class="g-chip">
+        <div class="swatch sw-soft"></div>
+        <div class="cname">Ink Soft</div>
+        <div class="cval">#555555 — annotations, deks</div>
+      </div>
+      <div class="g-chip">
+        <div class="swatch sw-faint"></div>
+        <div class="cname">Ink Faint</div>
+        <div class="cval">#999999 — indices, hints</div>
+      </div>
+      <div class="g-chip">
+        <div class="swatch sw-flora"></div>
+        <div class="cname">Flora Spectrum</div>
+        <div class="cval">hsl(H drifting, 42%, 58%) — motion only, ≤ 60% alpha</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 05 GRAPHIC LANGUAGE ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">05</span>
+    <h2>Graphic Language</h2>
+
+    <p class="g-note reveal">The visual vocabulary comes from the working desk of an archive:
+    hairlines, index numbers, arrows, dashed connections, diagonal hatching for
+    images not yet placed, and diagrams typed in mono. No icons, no illustration
+    systems, no rounded cards, no drop shadows — ever.</p>
+
+    <div class="g-spec reveal">
+      <div class="g-row">
+        <span class="lbl">Hairline</span>
+        <hr class="rule" style="animation:none;" />
+        <span class="val">1px ink — structure, never decoration</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Index</span>
+        <span class="mono" style="color:var(--ink-faint);">01&nbsp;&nbsp;&nbsp;02&nbsp;&nbsp;&nbsp;03&nbsp;&nbsp;&nbsp;07</span>
+        <span class="val">Everything is numbered</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Arrows</span>
+        <span class="mono">READ →&nbsp;&nbsp;&nbsp;&nbsp;idea ↓ research ↓ scene</span>
+        <span class="val">→ leads out · ↓ flows through</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Hatching</span>
+        <span style="display:block;height:64px;border:var(--hairline);background:repeating-linear-gradient(115deg, transparent 0 9px, rgba(17,17,17,0.045) 9px 10px);"></span>
+        <span class="val">Placeholder for the unmade</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Glyph morphs</span>
+        <span style="font-size:1.4rem;">⚙︎&nbsp;&nbsp;▞▞&nbsp;&nbsp;✳&nbsp;&nbsp;✎&nbsp;&nbsp;◐</span>
+        <span class="val">Monochrome, on hover only</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== 06 VOICE ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">06</span>
+    <h2>Voice</h2>
+
+    <p class="g-note reveal">Short sentences. Concrete nouns. No adjectives doing the work
+    that the work should do. We describe machines, stories and people —
+    never “solutions”, “innovation” or “empowerment”.</p>
+
+    <div class="g-voice reveal">
+      <div class="yes">
+        <span class="h">We say</span>
+        <p>We build machines for imagination.</p>
+        <p>A face that stays the same across a hundred shots.</p>
+        <p>Thinking, in public.</p>
+        <p>This is YOWO.</p>
+      </div>
+      <div class="no">
+        <span class="h">We never say</span>
+        <p>We leverage cutting-edge AI to empower creators.</p>
+        <p>Save 30% of your production time.</p>
+        <p>Our innovative end-to-end solution.</p>
+        <p>Join the revolution!</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ====================== 07 MOTION ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">07</span>
+    <h2>Motion</h2>
+
+    <p class="g-note reveal">Motion is the only place where YOWO is allowed to be strange.
+    Every movement borrows from nature — things grow, breathe, drift, flow and fall.
+    Nothing slides, bounces, pops or spins. Four principles:</p>
+
+    <div class="rows reveal" style="margin-top:2vh;">
+      <div class="row"><span class="idx">M1</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">Nothing moves without meaning.</span><span class="meta">No decoration</span></div>
+      <div class="row"><span class="idx">M2</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">The ecosystem breathes — slowly.</span><span class="meta">Ambient ≥ 3s</span></div>
+      <div class="row"><span class="idx">M3</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">Motion is organic: grow, drift, flow, fall.</span><span class="meta">Never mechanical</span></div>
+      <div class="row"><span class="idx">M4</span><span class="title" style="font-size:clamp(1.2rem,2.4vw,2rem);">Stillness is respected.</span><span class="meta">reduced-motion honoured</span></div>
+    </div>
+
+    <p class="g-note reveal">Three tiers of motion, three tempos. Live tokens:</p>
+
+    <div class="g-ease-demo reveal">
+      <div class="g-ease-row">
+        <span class="lbl">Micro / response</span>
+        <div class="g-track"><div class="g-dot d-micro"></div></div>
+        <span class="val">0.3–0.4s · cubic-bezier(.6,0,.2,1)</span>
+      </div>
+      <div class="g-ease-row">
+        <span class="lbl">Transition / reveal</span>
+        <div class="g-track"><div class="g-dot d-enter"></div></div>
+        <span class="val">0.9–1.6s · cubic-bezier(.2,.6,.2,1)</span>
+      </div>
+      <div class="g-ease-row">
+        <span class="lbl">Ambient / breath</span>
+        <div class="g-track"><div class="g-dot d-ambient"></div></div>
+        <span class="val">3–90s · ease-in-out · infinite</span>
+      </div>
+    </div>
+
+    <p class="g-note reveal">The signature behaviours, alive below. These are the brand;
+    reuse them before inventing new ones.</p>
+
+    <div class="g-garden reveal">
+      <div class="cell">
+        <div class="demoarea"><div class="g-breathe-node"></div></div>
+        <span class="dl">Breathe — nodes, 6s</span>
+      </div>
+      <div class="cell">
+        <div class="demoarea">
+          <svg class="g-flow-line" viewBox="0 0 200 40" preserveAspectRatio="none"><line x1="0" y1="20" x2="200" y2="20"/></svg>
+        </div>
+        <span class="dl">Flow — connections, 50s</span>
+      </div>
+      <div class="cell">
+        <div class="demoarea"><span class="g-drift-word">Stories</span></div>
+        <span class="dl">Drift — desk objects, 11–15s</span>
+      </div>
+      <div class="cell">
+        <div class="demoarea"><span class="g-sap-arrow">↓</span></div>
+        <span class="dl">Sap — workflow arrows, 3.4s</span>
+      </div>
+      <div class="cell">
+        <div class="demoarea g-grow-rule"><hr /></div>
+        <span class="dl">Grow — rules, 1.6s once</span>
+      </div>
+      <div class="cell">
+        <div class="demoarea"><span class="mono" style="color:var(--ink-faint);">move your cursor<br/>&amp; click anywhere</span></div>
+        <span class="dl">Flora — cursor, petals fall on click</span>
+      </div>
+    </div>
+
+    <div class="g-spec reveal" style="margin-top:8vh;">
+      <div class="g-row">
+        <span class="lbl">Flora cursor</span>
+        <span style="font-size:15px;color:var(--ink-soft);max-width:46ch;">Six petals, each pulsing on its own cycle so the flower never repeats a shape. Hue drifts one full circle in ~45s at 42% saturation, ≤ 55% alpha. Blooms +45% over links. Traces fade in 2.8s.</span>
+        <span class="val">The only emblem</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Petal fall</span>
+        <span style="font-size:15px;color:var(--ink-soft);max-width:46ch;">One petal per click. Falls at 26–48px/s with sinusoidal sway, gentle rotation, gone in 9–12s. A click is a seed: attention becomes a falling, settling thing.</span>
+        <span class="val">Click ritual</span>
+      </div>
+      <div class="g-row">
+        <span class="lbl">Budget</span>
+        <span style="font-size:15px;color:var(--ink-soft);max-width:46ch;">Maximum two ambient behaviours per viewport. Ambient opacity change ≤ 60%, travel ≤ 6px. If a visitor notices the motion before the content, reduce it.</span>
+        <span class="val">Restraint rule</span>
+      </div>
+    </div>
+
+    <p class="g-note reveal">Hard prohibitions:</p>
+
+    <ul class="g-donts reveal">
+      <li>No bounce, elastic or spring easings — nothing in nature bounces like a UI library.</li>
+      <li>No parallax heroes, no scroll-jacking, no autoplay carousels.</li>
+      <li>No motion faster than 250ms except the flora cursor itself.</li>
+      <li>No looping attention-seekers: badges, pulsing CTAs, shimmer loaders.</li>
+      <li>No coloured motion outside the flora spectrum.</li>
+      <li>Nothing moves when <span class="mono" style="font-size:11px;">prefers-reduced-motion</span> is set. Ever.</li>
+    </ul>
+  </section>
+
+  <!-- ====================== 08 SYSTEM ====================== -->
+  <section class="g-chapter">
+    <span class="num mono">08</span>
+    <h2>The System</h2>
+
+    <p class="g-note reveal">How it all holds together — identity, motion and architecture
+    are one organism:</p>
+
+    <pre class="diagram reveal">
+                  PAPER  ·  INK  ·  MONO LABELS
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+           IDENTITY        MOTION        VOICE
+        wordmark, type   grow, breathe   short, concrete
+        hairlines, 01    drift, flow     work speaks
+        hatching, →↓     fall, bloom     no adjectives
+              │              │              │
+              └──────────────┼──────────────┘
+                             │
+                       FLORA CURSOR
+              the one living emblem of the ecosystem
+    </pre>
+
+    <a class="enter reveal" href="index.html">
+      <span>Back to the ecosystem</span><span class="arrow">→</span>
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <div class="wordmark-big">YOWO</div>
+    <div class="cols">
+      <span class="mono">We build the creative ecosystem for what comes next.</span>
+      <a class="mono" href="brand.html">Brand System →</a>
+      <span class="mono">© 2026 YOWO</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
